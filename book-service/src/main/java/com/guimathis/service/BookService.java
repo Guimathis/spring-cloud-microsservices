@@ -28,9 +28,9 @@ public class BookService {
     private ExchangeClient exchangeClient;
 
     // Aplicando Circuit Breaker e Retry na chamada ao exchange-service
+    @Retry(name = "exchange-service")
     @CircuitBreaker(name = "exchange-service", fallbackMethod = "getExchangeFallback")
     @RateLimiter(name = "exchange-service")
-    @Retry(name = "exchange-service")
     public Book findBook(Long id, String currency) {
 
         var book = bookRepository.findById(id).orElseThrow();
