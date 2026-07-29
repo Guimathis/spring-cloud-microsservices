@@ -11,6 +11,33 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      exchange-service:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 10s
+  retry:
+    instances:
+      exchange-service:
+        maxAttempts: 3
+        waitDuration: 1s
+  ratelimiter:
+    instances:
+        exchange-service:
+            limitForPeriod: 10
+            limitRefreshPeriod: 1s
+            timeoutDuration: 0
 
 server:
   port: ${SERVER_PORT:8100}

@@ -22,10 +22,4 @@ public class BookController {
         return bookService.findBook(id, currency);
     }
 
-
-    @GetMapping(value = "/teste", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String teste() {
-        return "HEllo";
-    }
-
 }

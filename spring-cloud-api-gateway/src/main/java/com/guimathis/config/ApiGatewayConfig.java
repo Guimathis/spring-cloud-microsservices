@@ -11,10 +11,9 @@ public class ApiGatewayConfig {
     @Bean
     public RouteLocator gatewayRouter(RouteLocatorBuilder builder) {
         return builder.routes()
-
-                .route(p ->p.path("/book/**")
+                .route(p -> p.path("/book/**")
                         .uri("lb://book-service"))
-                .route(p ->p.path("/exchange-service/**")
+                .route(p -> p.path("/exchange-service/**")
                         .uri("lb://exchange-service"))
                 .build();
     }
