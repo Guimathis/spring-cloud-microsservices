@@ -1,6 +1,29 @@
 spring:
   application:
     name: spring-cloud-api-gateway
+
+  #   Alternativa ao uso da Classe ApiGatewayConfig para configuração de rotas do gateway,
+  #  é possível utilizar o arquivo application.yaml, como mostrado abaixo:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: book-service
+              uri: lb://book-service
+              predicates:
+                - Path=/book-service/**
+            - id: exchange-service
+              uri: lb://exchange-service
+              predicates:
+                - Path=/exchange-service/**
+springdoc:
+  swagger-ui:
+    urls:
+      - name: book-service
+        url: /book-service/v3/api/docs
+      - name: exchange-service
+        url: /exchange-service/v3/api/docs
 management:
   endpoint:
     gateway:
@@ -9,15 +32,6 @@ management:
     web:
       exposure:
         include: gateway
-
-#  cloud:
-#    gateway:
-#      server:
-#        webflux:
-#          discovery:
-#            locator:
-#              enabled: true
-#              lower-case-service-id: true
 server:
   port: 8765
 eureka:

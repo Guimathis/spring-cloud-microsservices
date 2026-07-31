@@ -21,3 +21,8 @@ eureka:
       defaultZone: http://localhost:8761/eureka
   instance:
     prefer-ip-address: true
+
+# Caminho para as docs openApi
+springdoc:
+  api-docs:
+    path: /exchange-service/v3/api/docs

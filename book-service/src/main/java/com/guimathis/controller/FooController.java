@@ -7,10 +7,13 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
+@Tag(name = "Foo endpoint", description = "Operations related to foo")
 @RestController
 @RequestMapping("/foo")
 public class FooController {
@@ -22,6 +25,7 @@ public class FooController {
     @Bulkhead(name = BACKEND, fallbackMethod = "fallback")
     @Retry(name = BACKEND)
     @TimeLimiter(name = BACKEND)
+    @GetMapping("/foo")
     public Mono<String> fooMethod(String param1) {
         return Mono.error(new NumberFormatException());
     }

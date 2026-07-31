@@ -1,3 +1,7 @@
+// Configurações movidas para o properties, para que o openApi possa coletar dinamicamente as rotas utilizadas pelos serviços
+// e possa redirecionar o Swagger UI para cada url correspondente a partir do OpenApiConfiguration.java
+
+/*
 package com.guimathis.config;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
@@ -18,3 +22,4 @@ public class ApiGatewayConfig {
                 .build();
     }
 }
+*/
