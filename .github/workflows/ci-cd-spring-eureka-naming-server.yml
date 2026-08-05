@@ -7,18 +7,6 @@ on:
       - 'spring-eureka-naming-server/**'
   workflow_dispatch:
 jobs:
-  detect-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      services: ${{ steps.filter.outputs.changes }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            spring-cloud-api-gateway:
-              - 'spring-eureka-naming-server/**':
 
   build:
 
@@ -32,3 +20,17 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and Push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./spring-eureka-naming-server
+          file: ./spring-eureka-naming-server/Dockerfile
+          push: true
+          # Cria duas tags: a "latest" e uma com o hash do commit para versionamento
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/eureka-naming-server:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/eureka-naming-server:${{ github.sha }}
