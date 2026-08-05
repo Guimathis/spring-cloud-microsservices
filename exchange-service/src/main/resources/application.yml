@@ -3,7 +3,7 @@ spring:
     name: exchange-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/exchange-db
+    url: jdbc:postgresql://postgres:5432/exchange-db
     username: postgres
     password: admin
   jpa:
@@ -11,14 +11,21 @@ spring:
       ddl-auto: none
     properties:
       hibernate:
-
+management:
+  tracing:
+    sampling:
+      # Recomendado 0.05 em prod
+      probability: 1.0
+    export:
+      zipkin:
+        endpoint: ${MANAGEMENT_TRACING_EXPORT_ZIPKIN_ENDPOINT:http://localhost:9411}
 server:
   port: ${SERVER_PORT:8000}
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
   instance:
     prefer-ip-address: true
 

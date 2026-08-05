@@ -68,7 +68,7 @@ Realiza a conversão de um valor entre duas moedas.
 
 ### Eureka Dashboard
 Visualize os serviços registrados:
-- `http://localhost:8761`
+- `http://spring-eureka-naming-server:8761`
 
 ## 🛡️ Resiliência
 O **Book Service** está configurado com **Resilience4j** para lidar com falhas no **Exchange Service**:

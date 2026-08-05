@@ -1,0 +1,91 @@
+services:
+  spring-eureka-naming-server:
+    image: guimathis/eureka-naming-server:latest
+    build: ./spring-eureka-naming-server
+    restart: always
+    ports:
+      - "8761:8761"
+    networks:
+      - cloud-network
+
+  spring-cloud-api-gateway:
+    image: guimathis/spring-cloud-api-gateway:latest
+    build: ./spring-cloud-api-gateway
+    environment: &env-vars
+      MANAGEMENT_TRACING_EXPORT_ZIPKIN_ENDPOINT: http://zipkin:9411
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://spring-eureka-naming-server:8761/eureka
+    depends_on:
+      - zipkin
+      - spring-eureka-naming-server
+    ports:
+      - "8765:8765"
+    networks:
+      - cloud-network
+
+  exchange-service:
+    image: guimathis/exchange-service:latest
+    build: ./exchange-service
+    environment:
+      <<: *env-vars
+    ports:
+      - "8000:8000"
+    networks:
+      - cloud-network
+    depends_on:
+      spring-eureka-naming-server:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+
+  book-service:
+    image: guimathis/book-service:latest
+    build: ./book-service
+    environment:
+      <<: *env-vars
+    ports:
+      - "8100:8100"
+    networks:
+      - cloud-network
+    depends_on:
+      exchange-service:
+        condition: service_started
+      spring-eureka-naming-server:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cloud-network
+
+  zipkin:
+    image: openzipkin/zipkin:3.6
+    restart: always
+    ports:
+      - "9411:9411"
+    networks:
+      - cloud-network
+
+networks:
+  cloud-network:
+    name: cloud-network
+    driver: bridge
+
+volumes:
+  pgdata:
