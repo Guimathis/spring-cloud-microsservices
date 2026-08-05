@@ -4,9 +4,21 @@ on:
   push:
     branches: [ "master" ]
     paths:
-      - './spring-eureka-naming-server/**'
+      - 'spring-eureka-naming-server/**'
 
 jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.filter.outputs.changes }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            spring-cloud-api-gateway:
+              - 'spring-eureka-naming-server/**':
 
   build:
 
