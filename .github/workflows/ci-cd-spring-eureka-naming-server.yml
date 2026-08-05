@@ -32,5 +32,5 @@ jobs:
           push: true
           # Cria duas tags: a "latest" e uma com o hash do commit para versionamento
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/eureka-naming-server:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/eureka-naming-server:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/eureka-naming-server:latest
+            ${{ secrets.DOCKER_USERNAME }}/eureka-naming-server:${{ github.sha }}
