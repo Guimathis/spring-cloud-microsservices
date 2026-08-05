@@ -5,6 +5,7 @@ on:
     branches: [ "master" ]
     paths:
       - 'spring-cloud-api-gateway/**'
+  workflow_dispatch:
 
 jobs:
 
