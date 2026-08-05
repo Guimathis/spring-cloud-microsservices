@@ -24,9 +24,12 @@ O ecossistema é composto pelos seguintes serviços:
   - Spring Cloud Gateway
   - OpenFeign (Comunicação Síncrona)
   - Resilience4j (Circuit Breaker, Retry, Rate Limiter, Bulkhead)
+  - Micrometer + Zipkin (Observabilidade/Tracing)
 - **Banco de Dados & Migração**
   - PostgreSQL
   - Flyway
+- **Infraestrutura & Containerização**
+  - Docker / Docker Compose
 - **Ferramentas Auxiliares**
   - Lombok
   - Maven
@@ -34,22 +37,16 @@ O ecossistema é composto pelos seguintes serviços:
 ## 🚀 Como Executar
 
 ### Pré-requisitos
-1. Java 21 instalado.
-2. PostgreSQL rodando localmente.
-3. Crie dois bancos de dados: `booking-db` e `exchange-db`.
-   - As credenciais padrão configuradas são: Usuário `postgres` e Senha `admin`.
+1. Docker e Docker Compose instalados.
 
 ### Passo a Passo
 1. Clone o repositório.
-2. Compile o projeto:
+
+2. Inicie o ecossistema com Docker Compose:
    ```bash
-   mvn clean install
+   docker-compose up -d
    ```
-3. Inicie os serviços:
-   1. **Naming Server:** `spring-eureka-naming-server`
-   2. **API Gateway:** `spring-cloud-api-gateway`
-   3. **Exchange Service:** `exchange-service`
-   4. **Book Service:** `book-service`
+3. Aguarde alguns instantes para que todos os containers estejam saudáveis e os serviços registrados no Eureka.
 
 ## 📡 Endpoints Principais
 
@@ -68,7 +65,11 @@ Realiza a conversão de um valor entre duas moedas.
 
 ### Eureka Dashboard
 Visualize os serviços registrados:
-- `http://spring-eureka-naming-server:8761`
+- `http://localhost:8761`
+
+### Zipkin Dashboard
+Acompanhe o rastreamento das requisições:
+- `http://localhost:9411`
 
 ## 🛡️ Resiliência
 O **Book Service** está configurado com **Resilience4j** para lidar com falhas no **Exchange Service**:
