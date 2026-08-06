@@ -1,7 +1,8 @@
 services:
   spring-eureka-naming-server:
-    image: guimathis/eureka-naming-server:latest
-    build: ./spring-eureka-naming-server
+    image: guimathis/spring-eureka-naming-server:latest
+#    Descomente para buildar a imagem localmente
+#    build: ./spring-eureka-naming-server
     restart: always
     ports:
       - "8761:8761"
@@ -10,7 +11,8 @@ services:
 
   spring-cloud-api-gateway:
     image: guimathis/spring-cloud-api-gateway:latest
-    build: ./spring-cloud-api-gateway
+#    Descomente para buildar a imagem localmente
+#    build: ./spring-cloud-api-gateway
     environment: &env-vars
       MANAGEMENT_TRACING_EXPORT_ZIPKIN_ENDPOINT: http://zipkin:9411
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://spring-eureka-naming-server:8761/eureka
@@ -24,7 +26,8 @@ services:
 
   exchange-service:
     image: guimathis/exchange-service:latest
-    build: ./exchange-service
+#    Descomente para buildar a imagem localmente
+#    build: ./exchange-service
     environment:
       <<: *env-vars
     ports:
@@ -39,7 +42,8 @@ services:
 
   book-service:
     image: guimathis/book-service:latest
-    build: ./book-service
+#    Descomente para buildar a imagem localmente
+#    build: ./book-service
     environment:
       <<: *env-vars
     ports:
