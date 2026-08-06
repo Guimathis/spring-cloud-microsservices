@@ -1,4 +1,5 @@
 name: template-docker-image-push.yml
+
 on:
   workflow_call:
     # Define os parâmetros que os serviços vão passar para cá

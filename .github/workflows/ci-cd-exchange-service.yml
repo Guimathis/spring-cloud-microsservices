@@ -1,4 +1,4 @@
-name: CI/CD Spring Cloud API Gateway
+name: CI/CD Exchange Service
 
 on:
   push:
