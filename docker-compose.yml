@@ -1,3 +1,8 @@
+x-common-env: &env-vars
+  MANAGEMENT_TRACING_EXPORT_ZIPKIN_ENDPOINT: http://zipkin:9411
+  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://spring-eureka-naming-server:8761/eureka
+  DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+
 services:
   spring-eureka-naming-server:
     image: guimathis/spring-eureka-naming-server:latest
@@ -13,9 +18,8 @@ services:
     image: guimathis/spring-cloud-api-gateway:latest
 #    Descomente para buildar a imagem localmente
 #    build: ./spring-cloud-api-gateway
-    environment: &env-vars
-      MANAGEMENT_TRACING_EXPORT_ZIPKIN_ENDPOINT: http://zipkin:9411
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://spring-eureka-naming-server:8761/eureka
+    environment:
+      <<: *env-vars
     depends_on:
       - zipkin
       - spring-eureka-naming-server
