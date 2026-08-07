@@ -1,10 +1,10 @@
-name: CI/CD Spring Cloud Eureka Naming Server
+name: CI Booking service
 
 on:
   push:
     branches: [ "master" ]
     paths:
-      - 'spring-eureka-naming-server/**'
+      - 'book-service/**'
   workflow_dispatch:
 
 jobs:
@@ -13,8 +13,8 @@ jobs:
     uses: ./.github/workflows/template-docker-image-push.yml
     # Passa as informações específicas deste serviço
     with:
-      working_directory: './spring-eureka-naming-server'
-      image_name: 'spring-eureka-naming-server'
+      working_directory: './book-service'
+      image_name: 'book-service'
     # Repassa os secrets do repositório para o template
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
