@@ -25,7 +25,7 @@ public class Exchange implements Serializable {
 
     @Column(name = "from_currency", nullable = false, length = 3)
     private String from;
-    
+
     @Column(name = "to_currency", nullable = false, length = 3)
     private String to;
 
@@ -35,6 +35,6 @@ public class Exchange implements Serializable {
     @Transient
     private BigDecimal convertedValue;
     @Transient
-    private String    environment;
+    private String environment;
 
 }

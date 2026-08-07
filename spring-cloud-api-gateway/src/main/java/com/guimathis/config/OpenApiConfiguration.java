@@ -26,18 +26,13 @@ public class OpenApiConfiguration {
         List<GroupedOpenApi> groups = new ArrayList<>();
         if (definitions != null) {
             definitions.stream().filter(routeDefinition -> {
-                        assert routeDefinition.getId() != null;
-                        return routeDefinition.getId().matches(".*-service");
-                    }
-            ).forEach(
-                    routeDefinition -> {
-                        String name = routeDefinition.getId();
-                        config.addGroup(name);
-                        groups.add(GroupedOpenApi.builder()
-                                .group(name)
-                                .pathsToMatch("/" + name + "/**")
-                                .build());
-                    });
+                assert routeDefinition.getId() != null;
+                return routeDefinition.getId().matches(".*-service");
+            }).forEach(routeDefinition -> {
+                String name = routeDefinition.getId();
+                config.addGroup(name);
+                groups.add(GroupedOpenApi.builder().group(name).pathsToMatch("/" + name + "/**").build());
+            });
         }
         return groups;
     }
