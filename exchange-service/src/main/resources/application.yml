@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/}exchange-db
-    username: postgres
-    password: admin
+    username:  ${DATASOURCE_USER:postgres}
+    password:  ${DATASOURCE_PASSWORD:admin}
   jpa:
     hibernate:
       ddl-auto: none

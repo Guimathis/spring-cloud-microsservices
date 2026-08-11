@@ -45,7 +45,7 @@ public class BookService {
 
         book.setEnvironment("Book-service HOST: " + informationService.retrieveHostName()
                 + " PORT: " + informationService.retrieveServerPort()
-                + " VERSION KUBE-V1"
+                + " VERSION KUBE-V2"
                 + " exchange-service HOST: " + exchange.getEnvironment());
 
         logger.info("Requisicao Processada: Book-service PORT: {} exchange-service PORT: {}", informationService.retrieveServerPort(), exchange.getEnvironment());

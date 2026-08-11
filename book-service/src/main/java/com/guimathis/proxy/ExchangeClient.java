@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "exchange-service", url = "${EXCHANGE_SERVICE_SERVICE_HOST:http://host.docker.internal}:8080")
+@FeignClient(name = "exchange-service", url = "${EXCHANGE_SERVICE_URI:http://host.docker.internal}:8001")
 public interface ExchangeClient {
 
     @GetMapping(value = "exchange-service/{value}/{from}/{to}", produces = MediaType.APPLICATION_JSON_VALUE)

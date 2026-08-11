@@ -27,10 +27,10 @@ public class ExchangeService {
         Exchange exchange = exchangeRepository.findByFromAndTo(from, to)
                 .orElseThrow(() -> new ExchangeNotSuportedException("Exchange not supported for " + from + " to " + to));
 
-        logger.info("Calculando exchange rate: {} x {} = {}", value, from, to);
+        logger.info("Calculando exchange rate: {} x {} = {} {}", value, from, getExchangeRate(value, exchange), to);
 
         exchange.setConvertedValue(getExchangeRate(value, exchange));
-        exchange.setEnvironment(instanceInformationService.retrieveHostName() +  " VERSION KUBE-V1 PORT: " + instanceInformationService.retrieveServerPort());
+        exchange.setEnvironment(instanceInformationService.retrieveHostName() +  " VERSION KUBE-V2 PORT: " + instanceInformationService.retrieveServerPort());
 
         return exchange;
     }
