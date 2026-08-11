@@ -35,13 +35,19 @@ public class BookService {
 
         var book = bookRepository.findById(id).orElseThrow();
 
+        logger.info("Calculando exchange rate para o livro de {} USD para {}", book.getPrice(), currency);
+
         // Operação que pode falhar se o exchange-service estiver fora do ar
         ExchangeDTO exchange = exchangeClient.getExchange(book.getPrice(), "USD", currency);
 
         book.setPrice(exchange.getConvertedValue());
         book.setCurrency(currency);
 
-        book.setEnvironment("Book-service PORT: " + informationService.retrieveServerPort() + " exchange-service PORT: " + exchange.getEnvironment());
+        book.setEnvironment("Book-service HOST: " + informationService.retrieveHostName()
+                + " PORT: " + informationService.retrieveServerPort()
+                + " VERSION KUBE-V1"
+                + " exchange-service HOST: " + exchange.getEnvironment());
+
         logger.info("Requisicao Processada: Book-service PORT: {} exchange-service PORT: {}", informationService.retrieveServerPort(), exchange.getEnvironment());
         return book;
     }

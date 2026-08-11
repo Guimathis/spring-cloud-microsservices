@@ -2,7 +2,7 @@ name: CI Exchange Service
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "k8s" ]
     paths:
       - 'exchange-service/**'
   workflow_dispatch:
