@@ -3,9 +3,9 @@ spring:
     name: book-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/}booking-db
-    username: postgres
-    password: admin
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost/booking-db}
+    username: ${DATASOURCE_USER:postgres}
+    password: ${DATASOURCE_PASSWORD:admin}
   jpa:
     hibernate:
       ddl-auto: none
@@ -57,7 +57,7 @@ resilience4j:
             timeoutDuration: 0
 
 server:
-  port: ${SERVER_PORT:8100}
+  port: ${BOOK_SERVICE_PORT:8100}
 
 #eureka:
 #  client:
