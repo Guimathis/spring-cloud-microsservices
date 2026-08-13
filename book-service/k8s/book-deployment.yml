@@ -37,6 +37,12 @@ spec:
               secretKeyRef:
                 name: app-secrets
                 key: BOOK_DATASOURCE_USERNAME
+        startupProbe:
+          httpGet:
+            path: /actuator/health # Ou qualquer rota leve da sua API
+            port: 8100
+          failureThreshold: 30     # Tenta 30 vezes
+          periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /actuator/health/readiness
