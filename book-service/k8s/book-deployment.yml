@@ -20,9 +20,6 @@ spec:
         image: guimathis/book-service:latest
         ports:
         - containerPort: 8100
-# O Spring Boot tem um recurso chamado Relaxed Binding.
-#  Ele converte automaticamente variáveis de ambiente em letras maiúsculas (com underscores)
-#  para as propriedades do application.properties ou application.yml.
         env:
           - name: SPRING_DATASOURCE_URL
             valueFrom:
