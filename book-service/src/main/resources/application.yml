@@ -3,7 +3,7 @@ spring:
     name: book-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATASOURCE_URL:jdbc:postgresql://localhost/booking-db}
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/booking-db}
     username: ${DATASOURCE_USER:postgres}
     password: ${DATASOURCE_PASSWORD:admin}
   jpa:
