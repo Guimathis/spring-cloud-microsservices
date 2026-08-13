@@ -18,6 +18,7 @@ spec:
       containers:
       - name: book-service
         image: guimathis/book-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8100
         env:
