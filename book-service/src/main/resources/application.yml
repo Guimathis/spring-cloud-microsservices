@@ -57,7 +57,7 @@ resilience4j:
             timeoutDuration: 0
 
 server:
-  port: ${BOOK_SERVICE_PORT:8100}
+  port: 8100
 
 #eureka:
 #  client:
