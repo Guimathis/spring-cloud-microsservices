@@ -20,6 +20,18 @@ spec:
         image: guimathis/book-service:latest
         ports:
         - containerPort: 8100
+      - name: cloud-sql-proxy
+        image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+        args:
+          - "--structured-logs"
+          - "--port=5432"
+          - "microservices-cloud-deployment:us-central1:microservices-cloud-deployment"
+        securityContext:
+          runAsNonRoot: true
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
         env:
           - name: SPRING_DATASOURCE_URL
             valueFrom:
