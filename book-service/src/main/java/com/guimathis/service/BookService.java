@@ -53,11 +53,11 @@ public class BookService {
     }
 
     // Métödo de Fallback que será chamado se o Circuit Breaker abrir ou a chamada falhar
-    private Book getExchangeFallback(Long id, String currency, Exception e) {
-        logger.warn("Exchange Service Indisponivel: {}", e.getMessage());
+    private Book getExchangeFallback(Long id, String currency, Throwable e) {
+        logger.warn("Fallback ativado para o livro {}. Causa: {}", id, e.getMessage());
         var book = bookRepository.findById(id).orElseThrow();
         book.setCurrency(currency);
-        book.setEnvironment("Fallback: Exchange Service Indisponível. Port: " + informationService.retrieveServerPort());
+        book.setEnvironment("Fallback ativado. Causa: " + e.getMessage() + ". Port: " + informationService.retrieveServerPort());
         // Retorna um valor padrão ou logica alternativa para não quebrar o fluxo
         book.setPrice(book.getPrice());
         return book;
