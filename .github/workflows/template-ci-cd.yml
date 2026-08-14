@@ -2,6 +2,9 @@ name: template-docker-image-push.yml
 
 on:
   workflow_call:
+    permissions:
+      id-token: write
+      contents: read
     # Define os parâmetros que os serviços vão passar para cá
     inputs:
       working_directory:
@@ -48,13 +51,12 @@ jobs:
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}
+
   CD:
-    permissions:
-      id-token: write
-      contents: read
-      
+
     runs-on: ubuntu-latest
     needs: [CI]
+
     steps:
       - uses: actions/checkout@v4
 
