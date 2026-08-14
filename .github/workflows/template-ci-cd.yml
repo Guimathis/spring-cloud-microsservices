@@ -10,6 +10,9 @@ on:
       image_name:
         required: true
         type: string
+      manifests_path:
+        required: true
+        type: string
     # Define os secrets que o template vai precisar
     secrets:
       DOCKER_USERNAME:
@@ -57,3 +60,9 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.K8S_CONFIG }}
+      - name: Deploy to Kubernetes cluster
+        uses: Azure/k8s-deploy@v4.9
+        with:
+          images: ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}
+          manifests:
+            $ {{ manifests_path }}

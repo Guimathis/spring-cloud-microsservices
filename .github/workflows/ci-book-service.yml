@@ -15,6 +15,7 @@ jobs:
     with:
       working_directory: './book-service'
       image_name: 'book-service'
+      manifests_path: 'book-service/k8s'
     # Repassa os secrets do repositório para o template
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
