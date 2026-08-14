@@ -79,6 +79,7 @@ jobs:
           DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
         run: |
           kubectl create secret generic deploy-secrets \
+          --namespace=microservices \
           --from-literal=BOOK_DATASOURCE_URL="$BOOK_DATASOURCE_URL" \
           --from-literal=EXCHANGE_DATASOURCE_URL="$EXCHANGE_DATASOURCE_URL" \
           --from-literal=DATASOURCE_PASSWORD="$DATASOURCE_PASSWORD" \
@@ -88,6 +89,7 @@ jobs:
       - name: Deploy to Kubernetes cluster
         uses: Azure/k8s-deploy@v4.9
         with:
+          namespace: microservices
           images: ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}
           manifests:
             ${{ inputs.manifests_path }}
