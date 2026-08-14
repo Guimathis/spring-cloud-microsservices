@@ -10,7 +10,7 @@ on:
 jobs:
   call-template:
     # Chama o arquivo base que criamos acima
-    uses: ./.github/workflows/template-docker-image-push.yml
+    uses: ./.github/workflows/template-ci-cd.yml
     # Passa as informações específicas deste serviço
     with:
       working_directory: './book-service'
