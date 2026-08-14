@@ -2,9 +2,6 @@ name: template-docker-image-push.yml
 
 on:
   workflow_call:
-    permissions:
-      id-token: write
-      contents: read
     # Define os parâmetros que os serviços vão passar para cá
     inputs:
       working_directory:

@@ -9,6 +9,9 @@ on:
 
 jobs:
   call-template:
+    permissions:
+      id-token: write
+      contents: read
     # Chama o arquivo base que criamos acima
     uses: ./.github/workflows/template-ci-cd.yml
     # Passa as informações específicas deste serviço
