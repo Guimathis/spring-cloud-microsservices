@@ -19,7 +19,7 @@ on:
 
 jobs:
 
-  build:
+  CI:
 
     runs-on: ubuntu-latest
 
@@ -44,5 +44,16 @@ jobs:
           # Cria duas tags: a "latest" e uma com o hash do commit para versionamento
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:latest
-            ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:kube-v2
             ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}
+  CD:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Definir contexto Kubernetes
+        uses: Azure/k8s-set-context@v3.0
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.K8S_CONFIG }}
