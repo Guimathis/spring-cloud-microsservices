@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: exchange-service
-        image: guimathis/exchange-service:kube-v2
+        image: guimathis/exchange-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
