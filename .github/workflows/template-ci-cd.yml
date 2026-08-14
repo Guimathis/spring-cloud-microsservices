@@ -60,6 +60,16 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.K8S_CONFIG }}
+
+      - name: Criar ou atualizar Secrets no Cluster
+        run: |
+          kubectl create secret generic deploy-secrets \
+            --from-literal=API_KEY=${{ secrets.BOOK_DATASOURCE_URL }} \
+            --from-literal=API_KEY=${{ secrets.EXCHANGE_DATASOURCE_URL }} \
+            --from-literal=DB_PASSWORD=${{ secrets.DATASOURCE_PASSWORD }} \
+            --from-literal=API_KEY=${{ secrets.DATASOURCE_USERNAME }} \
+            --dry-run=client -o yaml | kubectl apply -f -  
+
       - name: Deploy to Kubernetes cluster
         uses: Azure/k8s-deploy@v4.9
         with:

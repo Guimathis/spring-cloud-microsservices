@@ -31,12 +31,12 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: app-secrets
-                key: EXCHANGE_DATASOURCE_PASSWORD
+                key: DATASOURCE_PASSWORD
           - name: SPRING_DATASOURCE_USERNAME
             valueFrom:
               secretKeyRef:
                 name: app-secrets
-                key: EXCHANGE_DATASOURCE_USERNAME
+                key: DATASOURCE_USERNAME
         startupProbe:
           httpGet:
             path: /actuator/health
