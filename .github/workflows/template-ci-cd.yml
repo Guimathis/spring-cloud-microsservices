@@ -68,7 +68,7 @@ jobs:
       - name: Obter credenciais do cluster
         uses: google-github-actions/get-gke-credentials@v2
         with:
-          cluster_name: microservices-cloud-deployment
+          cluster_name: deploy-microservices
           location: us-central1
 
       - name: Criar ou atualizar Secrets no Cluster
