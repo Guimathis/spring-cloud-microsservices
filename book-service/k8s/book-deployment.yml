@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: book-service
-        image: guimathis/book-service:kube-v2
+        image: guimathis/book-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8100
