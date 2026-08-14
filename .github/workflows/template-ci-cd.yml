@@ -49,17 +49,14 @@ jobs:
             ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:latest
             ${{ secrets.DOCKER_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}
   CD:
-
+    permissions:
+      id-token: write
+      contents: read
+      
     runs-on: ubuntu-latest
     needs: [CI]
     steps:
       - uses: actions/checkout@v4
-
-      - name: Definir contexto Kubernetes
-        uses: Azure/k8s-set-context@v3.0
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.K8S_CONFIG }}
 
       - name: Criar ou atualizar Secrets no Cluster
         run: |
@@ -70,6 +67,14 @@ jobs:
             --from-literal=API_KEY=${{ secrets.DATASOURCE_USERNAME }} \
             --dry-run=client -o yaml | kubectl apply -f -  
 
+      - name: Autenticar no Google Cloud
+        id: auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          # Cole aqui o resultado do Passo 2
+          workload_identity_provider: 'projects/741916121845/locations/global/workloadIdentityPools/github-pool/providers/github-actions-provider'
+          service_account: 'github-actions-sa@microservices-cloud-deployment.iam.gserviceaccount.com'
+  
       - name: Deploy to Kubernetes cluster
         uses: Azure/k8s-deploy@v4.9
         with:
