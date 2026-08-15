@@ -19,7 +19,14 @@ on:
         required: true
       DOCKER_ACCESS_TOKEN:
         required: true
-
+      BOOK_DATASOURCE_URL:
+        required: true
+      EXCHANGE_DATASOURCE_URL:
+        required: true
+      DATASOURCE_PASSWORD:
+        required: true
+      DATASOURCE_USERNAME:
+        required: true
 jobs:
 
   CI:
