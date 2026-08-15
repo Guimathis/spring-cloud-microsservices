@@ -37,6 +37,13 @@ spec:
               secretKeyRef:
                 name: deploy-secrets
                 key: DATASOURCE_USERNAME
+
+          - name: EXCHANGE_SERVICE_URL
+            valueFrom:
+              configMapKeyRef:
+                name: book-service-config
+                key: EXCHANGE_SERVICE_URL
+
         startupProbe:
           httpGet:
             path: /actuator/health
