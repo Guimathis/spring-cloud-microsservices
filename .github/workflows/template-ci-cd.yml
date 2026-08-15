@@ -20,9 +20,9 @@ on:
       DOCKER_ACCESS_TOKEN:
         required: true
       BOOK_DATASOURCE_URL:
-        required: true
+        required: false
       EXCHANGE_DATASOURCE_URL:
-        required: true
+        required: false
       DATASOURCE_PASSWORD:
         required: true
       DATASOURCE_USERNAME:
