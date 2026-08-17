@@ -1,32 +1,34 @@
 x-common-env: &env-vars
-  MANAGEMENT_TRACING_EXPORT_ZIPKIN_ENDPOINT: http://zipkin:9411
-  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://spring-eureka-naming-server:8761/eureka
-  DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+#  MANAGEMENT_TRACING_EXPORT_ZIPKIN_ENDPOINT: http://zipkin:9411
+#  EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://spring-eureka-naming-server:8761/eureka
+  DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: admin
 
 services:
-  spring-eureka-naming-server:
-    image: guimathis/spring-eureka-naming-server:latest
-#    Descomente para buildar a imagem localmente
-#    build: ./spring-eureka-naming-server
-    restart: always
-    ports:
-      - "8761:8761"
-    networks:
-      - cloud-network
-
-  spring-cloud-api-gateway:
-    image: guimathis/spring-cloud-api-gateway:latest
-#    Descomente para buildar a imagem localmente
-#    build: ./spring-cloud-api-gateway
-    environment:
-      <<: *env-vars
-    depends_on:
-      - zipkin
-      - spring-eureka-naming-server
-    ports:
-      - "8765:8765"
-    networks:
-      - cloud-network
+#  spring-eureka-naming-server:
+#    image: guimathis/spring-eureka-naming-server:latest
+##    Descomente para buildar a imagem localmente
+##    build: ./spring-eureka-naming-server
+#    restart: always
+#    ports:
+#      - "8761:8761"
+#    networks:
+#      - cloud-network
+#
+#  spring-cloud-api-gateway:
+#    image: guimathis/spring-cloud-api-gateway:latest
+##    Descomente para buildar a imagem localmente
+##    build: ./spring-cloud-api-gateway
+#    environment:
+#      <<: *env-vars
+#    depends_on:
+#      - zipkin
+#      - spring-eureka-naming-server
+#    ports:
+#      - "8765:8765"
+#    networks:
+#      - cloud-network
 
   exchange-service:
     image: guimathis/exchange-service:latest
@@ -38,11 +40,11 @@ services:
       - "8000:8000"
     networks:
       - cloud-network
-    depends_on:
-      spring-eureka-naming-server:
-        condition: service_started
-      postgres:
-        condition: service_healthy
+#    depends_on:
+#      spring-eureka-naming-server:
+#        condition: service_started
+#      postgres:
+#        condition: service_healthy
 
   book-service:
     image: guimathis/book-service:latest
@@ -57,44 +59,44 @@ services:
     depends_on:
       exchange-service:
         condition: service_started
-      spring-eureka-naming-server:
-        condition: service_started
-      postgres:
-        condition: service_healthy
+#      spring-eureka-naming-server:
+#        condition: service_started
+#      postgres:
+#        condition: service_healthy
 
-
-  postgres:
-    image: postgres:16-alpine
-    container_name: postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-      DATASOURCE_URL: jdbc:postgresql://postgres:5432/
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./init-scripts:/docker-entrypoint-initdb.d
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-    networks:
-      - cloud-network
-
-  zipkin:
-    image: openzipkin/zipkin:3.6
-    restart: always
-    ports:
-      - "9411:9411"
-    networks:
-      - cloud-network
+#
+#  postgres:
+#    image: postgres:16-alpine
+#    container_name: postgres
+#    environment:
+#      POSTGRES_USER: postgres
+#      POSTGRES_PASSWORD: admin
+#      DATASOURCE_URL: jdbc:postgresql://postgres:5432/
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - pgdata:/var/lib/postgresql/data
+#      - ./init-scripts:/docker-entrypoint-initdb.d
+#    healthcheck:
+#      test: ["CMD-SHELL", "pg_isready -U postgres"]
+#      interval: 5s
+#      timeout: 5s
+#      retries: 5
+#    networks:
+#      - cloud-network
+#
+#  zipkin:
+#    image: openzipkin/zipkin:3.6
+#    restart: always
+#    ports:
+#      - "9411:9411"
+#    networks:
+#      - cloud-network
 
 networks:
   cloud-network:
     name: cloud-network
     driver: bridge
 
-volumes:
-  pgdata:
+#volumes:
+#  pgdata:

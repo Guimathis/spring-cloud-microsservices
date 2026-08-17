@@ -35,23 +35,29 @@ public class BookService {
 
         var book = bookRepository.findById(id).orElseThrow();
 
+        logger.info("Calculando exchange rate para o livro de {} USD para {}", book.getPrice(), currency);
+
         // Operação que pode falhar se o exchange-service estiver fora do ar
         ExchangeDTO exchange = exchangeClient.getExchange(book.getPrice(), "USD", currency);
 
         book.setPrice(exchange.getConvertedValue());
         book.setCurrency(currency);
 
-        book.setEnvironment("Book-service PORT: " + informationService.retrieveServerPort() + " exchange-service PORT: " + exchange.getEnvironment());
+        book.setEnvironment("Book-service HOST: " + informationService.retrieveHostName()
+                + " PORT: " + informationService.retrieveServerPort()
+                + " VERSION KUBE-V2"
+                + " exchange-service HOST: " + exchange.getEnvironment());
+
         logger.info("Requisicao Processada: Book-service PORT: {} exchange-service PORT: {}", informationService.retrieveServerPort(), exchange.getEnvironment());
         return book;
     }
 
     // Métödo de Fallback que será chamado se o Circuit Breaker abrir ou a chamada falhar
-    private Book getExchangeFallback(Long id, String currency, Exception e) {
-        logger.warn("Exchange Service Indisponivel: {}", e.getMessage());
+    private Book getExchangeFallback(Long id, String currency, Throwable e) {
+        logger.warn("Fallback ativado para o livro {}. Causa: {}", id, e.getMessage());
         var book = bookRepository.findById(id).orElseThrow();
         book.setCurrency(currency);
-        book.setEnvironment("Fallback: Exchange Service Indisponível. Port: " + informationService.retrieveServerPort());
+        book.setEnvironment("Fallback ativado. Causa: " + e.getMessage() + ". Port: " + informationService.retrieveServerPort());
         // Retorna um valor padrão ou logica alternativa para não quebrar o fluxo
         book.setPrice(book.getPrice());
         return book;

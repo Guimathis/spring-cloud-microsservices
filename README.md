@@ -1,4 +1,4 @@
-# Spring Cloud Microsservices
+# Spring Cloud microservices
 
 Este repositório contém um ecossistema de microsserviços desenvolvido com **Spring Boot** e **Spring Cloud**. O projeto demonstra a implementação de padrões comuns em arquiteturas distribuídas, como Service Discovery, API Gateway, Load Balancing e Resiliência.
 

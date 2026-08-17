@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exchange-service
+  namespace: microservices
+  labels:
+    app: exchange-service
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: exchange-service
+  template:
+    metadata:
+      labels:
+        app: exchange-service
+    spec:
+      containers:
+      - name: exchange-service
+        image: guimathis/exchange-service:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+          - name: SPRING_DATASOURCE_URL
+            valueFrom:
+              secretKeyRef:
+                name: deploy-secrets
+                key: EXCHANGE_DATASOURCE_URL
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: deploy-secrets
+                key: DATASOURCE_PASSWORD
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: deploy-secrets
+                key: DATASOURCE_USERNAME
+        startupProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8000
+          failureThreshold: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8000
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8000

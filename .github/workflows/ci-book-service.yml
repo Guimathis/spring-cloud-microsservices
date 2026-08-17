@@ -2,20 +2,27 @@ name: CI Booking service
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "k8s" ]
     paths:
       - 'book-service/**'
   workflow_dispatch:
 
 jobs:
   call-template:
+    permissions:
+      id-token: write
+      contents: read
     # Chama o arquivo base que criamos acima
-    uses: ./.github/workflows/template-docker-image-push.yml
+    uses: ./.github/workflows/template-ci-cd.yml
     # Passa as informações específicas deste serviço
     with:
       working_directory: './book-service'
       image_name: 'book-service'
+      manifests_path: 'book-service/k8s'
     # Repassa os secrets do repositório para o template
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_ACCESS_TOKEN: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+      BOOK_DATASOURCE_URL: ${{ secrets.BOOK_DATASOURCE_URL }}
+      DATASOURCE_PASSWORD: ${{ secrets.DATASOURCE_PASSWORD }}
+      DATASOURCE_USERNAME: ${{ secrets.DATASOURCE_USERNAME }}
