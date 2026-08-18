@@ -2,7 +2,7 @@ name: CI Booking service
 
 on:
   push:
-    branches: [ "k8s" ]
+    branches: [ "master", "k8s" ]
     paths:
       - 'book-service/**'
   workflow_dispatch:

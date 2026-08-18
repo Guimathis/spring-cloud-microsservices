@@ -17,9 +17,9 @@ metadata:
   name: microservices
 ---
 apiVersion: v1
+kind: ConfigMap
 data:
   EXCHANGE_SERVICE_URL: http://exchange-service:8000
-kind: ConfigMap
 metadata:
   name: book-service-config
   namespace: microservices

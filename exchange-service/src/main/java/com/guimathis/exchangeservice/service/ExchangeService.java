@@ -30,7 +30,7 @@ public class ExchangeService {
         logger.info("Calculando exchange rate: {} x {} = {} {}", value, from, getExchangeRate(value, exchange), to);
 
         exchange.setConvertedValue(getExchangeRate(value, exchange));
-        exchange.setEnvironment(instanceInformationService.retrieveHostName() +  " VERSION KUBE-V2 PORT: " + instanceInformationService.retrieveServerPort());
+        exchange.setEnvironment(instanceInformationService.retrieveHostName() +  " PORT: " + instanceInformationService.retrieveServerPort());
 
         return exchange;
     }
