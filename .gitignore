@@ -2,4 +2,5 @@
 .junie
 target/
 **/target/
-
+**/.env
+.env
