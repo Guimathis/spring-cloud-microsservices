@@ -29,9 +29,11 @@ with an AI-generated summary on creation.
 - Never change `ddl-auto` away from `update`.
 - Use UUID-type identifiers.
 - Dont need to write all the changes that you make in a file on the chat.
+- Never execute `git commit` or `git push` autonomously.
 
 ## Guardrails
 Enforced across all agents and tooling (via `scripts/guardrails.sh` and build checks).
+- Prohibited autonomous commands: `git commit`, `git push` (never run autonomously).
 On `.java` files, the following patterns are strictly forbidden:
 - `import lombok` (no Lombok allowed)
 - `@Autowired` on its own line (field injection — always use constructor injection)
