@@ -22,6 +22,7 @@ import com.guimathis.model.Book;
 import com.guimathis.service.BookService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
@@ -42,15 +43,19 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED).body(bookService.save(bookRecordDto));
     }
 
-    @Operation(summary = "Update an existing book", description = "Updates a book by its unique identifier")
+    @Operation(summary = "Update an existing book", description = "Updates a book by its unique identifier", parameters = {
+            @Parameter(name = "id", description = "Unique identifier of the book to update", required = true, example = "123e4567-e89b-12d3-a456-426614174000")
+    })
     @PutMapping(value = "/{id}", version = "v1")
     public ResponseEntity<Book> update(@PathVariable(value = "id") UUID id,
                                          @RequestBody @Valid BookRecordDto bookRecordDto) {
-       Book book = bookService.findById(id).orElseThrow(() -> new BookNotFoundException(id));
+        Book book = bookService.findById(id).orElseThrow(() -> new BookNotFoundException(id));
         return ResponseEntity.status(HttpStatus.OK).body(bookService.update(book, bookRecordDto));
     }
 
-    @Operation(summary = "Delete a book", description = "Deletes a book by its unique identifier")
+    @Operation(summary = "Delete a book", description = "Deletes a book by its unique identifier", parameters = {
+            @Parameter(name = "id", description = "Unique identifier of the book to delete", required = true, example = "123e4567-e89b-12d3-a456-426614174000")
+    })
     @DeleteMapping(value = "/{id}", version = "v1")
     public ResponseEntity<Void> destroy(@PathVariable(value = "id") UUID id) {
         Book book = bookService.findById(id).orElseThrow(() -> new BookNotFoundException(id));
@@ -59,7 +64,10 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-    @Operation(summary = "Find a book by id and currency", description = "Finds a book by its identifier and converts its price to the specified currency")
+    @Operation(summary = "Find a book by id and currency", description = "Finds a book by its identifier and converts its price to the specified currency", parameters = {
+            @Parameter(name = "id", description = "Unique identifier of the book", required = true, example = "123e4567-e89b-12d3-a456-426614174000"),
+            @Parameter(name = "currency", description = "Currency code to convert the price to", required = true, example = "USD")
+    })
     @GetMapping(value = "/{id}/{currency}", version = "v1")
     public ResponseEntity<Book> showBookWithCurrency(@PathVariable(value = "id") UUID id,
                                                        @PathVariable(value = "currency") String currency) {
@@ -68,7 +76,9 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.OK).body(book);
     }
 
-    @Operation(summary = "Find a book by id", description = "Finds a book by its identifier")
+    @Operation(summary = "Find a book by id", description = "Finds a book by its identifier", parameters = {
+            @Parameter(name = "id", description = "Unique identifier of the book", required = true, example = "123e4567-e89b-12d3-a456-426614174000")
+    })
     @GetMapping(value = "/{id}", version = "v1")
     public ResponseEntity<BookShowResponse> show(@PathVariable UUID id) {
         Book book = bookService.findById(id)

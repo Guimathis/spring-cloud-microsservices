@@ -18,6 +18,10 @@ spring:
         api-key: ${GOOGLE_GENAI_APIKEY}
         chat:
           model: gemini-3.5-flash-lite
+  web:
+    error:
+      include-stacktrace: never
+      include-message: always
 management:
   endpoint:
     health:
@@ -83,4 +87,3 @@ server:
 springdoc:
   api-docs:
     path: /book-service/v3/api/docs
-  override-server-url: true
