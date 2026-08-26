@@ -1,43 +1,77 @@
 package com.guimathis.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Service;
+
 import com.guimathis.dto.ExchangeDTO;
+import com.guimathis.dto.BookIndexResponse;
+import com.guimathis.dto.BookRecordDto;
 import com.guimathis.environment.InstanceInformationService;
 import com.guimathis.model.Book;
 import com.guimathis.proxy.ExchangeClient;
 import com.guimathis.repository.BookRepository;
+
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class BookService {
 
     private final Logger logger = LoggerFactory.getLogger(BookService.class);
 
-    @Autowired
-    private InstanceInformationService informationService;
+    private final InstanceInformationService informationService;
+    private final BookRepository bookRepository;
+    private final ExchangeClient exchangeClient;
+    private final ReviewService reviewService;
 
-    @Autowired
-    private BookRepository bookRepository;
+    public BookService(InstanceInformationService informationService,
+                       BookRepository bookRepository,
+                       ExchangeClient exchangeClient,
+                       ReviewService reviewService) {
+        this.informationService = informationService;
+        this.bookRepository = bookRepository;
+        this.exchangeClient = exchangeClient;
+        this.reviewService = reviewService;
+    }
 
-    @Autowired
-    private ExchangeClient exchangeClient;
+    public List<BookIndexResponse> findAll() {
+        return bookRepository.findAll().stream()
+                .map(book -> new BookIndexResponse(
+                        book.getId(),
+                        book.getTitle(),
+                        book.getAuthor(),
+                        book.getPublisher(),
+                        book.getPublicationYear(),
+                        book.getPrice(),
+                        book.getReview(),
+                        book.getCurrency()
+                ))
+                .collect(Collectors.toList());
+    }
 
-    // Aplicando Circuit Breaker e Retry na chamada ao exchange-service
-    @Retry(name = "exchange-service")
-    @CircuitBreaker(name = "exchange-service", fallbackMethod = "getExchangeFallback")
+    public Optional<Book> findById(UUID id) {
+        return bookRepository.findById(id);
+    }
+
+    @Retry(name = "exchange-service", fallbackMethod = "getExchangeFallback"  )
+    @CircuitBreaker(name = "exchange-service")
     @RateLimiter(name = "exchange-service")
-    public Book findBook(Long id, String currency) {
+    public Optional<Book> findByIdWithCurrency(UUID id, String currency) {
+        var bookOptional = bookRepository.findById(id);
+        if (bookOptional.isEmpty()) {
+            return Optional.empty();
+        }
 
-        var book = bookRepository.findById(id).orElseThrow();
+        var book = bookOptional.get();
 
-        logger.info("Calculando exchange rate para o livro de {} USD para {}", book.getPrice(), currency);
-
-        // Operação que pode falhar se o exchange-service estiver fora do ar
         ExchangeDTO exchange = exchangeClient.getExchange(book.getPrice(), "USD", currency);
 
         book.setPrice(exchange.getConvertedValue());
@@ -47,41 +81,36 @@ public class BookService {
                 + " PORT: " + informationService.retrieveServerPort()
                 + " exchange-service HOST: " + exchange.getEnvironment());
 
-        logger.info("Requisicao Processada: Book-service PORT: {} exchange-service PORT: {}", informationService.retrieveServerPort(), exchange.getEnvironment());
-        return book;
+        return Optional.of(book);
     }
 
-    // Métödo de Fallback que será chamado se o Circuit Breaker abrir ou a chamada falhar
-    private Book getExchangeFallback(Long id, String currency, Throwable e) {
+    public Book save(BookRecordDto bookRecordDto) {
+        var book = new Book();
+        BeanUtils.copyProperties(bookRecordDto, book);
+        book.setReview(reviewService.generateReview(book.getTitle()));
+        return bookRepository.save(book);
+    }
+
+    public Book update(Book book, BookRecordDto bookRecordDto) {
+        BeanUtils.copyProperties(bookRecordDto, book);
+        return bookRepository.save(book);
+    }
+
+    public void delete(Book book) {
+        bookRepository.delete(book);
+    }
+
+    private Optional<Book> getExchangeFallback(UUID id, String currency, Throwable e) {
         logger.warn("Fallback ativado para o livro {}. Causa: {}", id, e.getMessage());
-        var book = bookRepository.findById(id).orElseThrow();
-        book.setCurrency(currency);
-        book.setEnvironment("Fallback ativado. Causa: " + e.getMessage() + ". Port: " + informationService.retrieveServerPort());
-        // Retorna um valor padrão ou logica alternativa para não quebrar o fluxo
-        book.setPrice(book.getPrice());
-        return book;
-    }
-/*     Antes do feignClient
-    public Book findBook(Long id, String currency) {
-        String port = informationService.retrieveServerPort();
-
-        var book = repository.findById(id).orElseThrow();
-
-        HashMap<String, String> params = new HashMap<>();
-        params.put("amount", book.getPrice().toString());
-        params.put("from", "USD");
-        params.put("to", currency);
-
-        var response = new RestTemplate()
-                .getForEntity(API_URL, ExchangeDTO.class, params);
-
-        ExchangeDTO exchange = response.getBody();
-        if (exchange == null) {
-            throw new RuntimeException("Failed to retrieve exchange rate");
+        var bookOptional = bookRepository.findById(id);
+        if (bookOptional.isEmpty()) {
+            return Optional.empty();
         }
-        book.setEnvironment(port);
-        book.setPrice(exchange.getConvertedValue());
-        book.setCurrency(currency);
-        return book;
-    }*/
+
+        var book = bookOptional.get();
+        book.setCurrency(book.getCurrency());
+        book.setEnvironment("Fallback ativado. Causa: " + e.getMessage() + ". Port: " + informationService.retrieveServerPort());
+        book.setPrice(book.getPrice());
+        return Optional.of(book);
+    }
 }

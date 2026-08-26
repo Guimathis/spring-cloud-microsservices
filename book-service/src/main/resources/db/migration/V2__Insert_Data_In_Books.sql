@@ -1,22 +1,11 @@
-INSERT INTO book (author, launch_date, price, title)
-VALUES ('Michael C. Feathers', '2017-11-29 13:50:05.878000', 8.57, 'Working Effectively with Legacy Code'),
-       ('Ralph Johnson, Erich Gamma, John Vlissides e Richard Helm', '2017-11-29 15:15:13.636000', 7.87,
-        'Design Patterns: Elements of Reusable Object-Oriented Software'),
-       ('Robert C. Martin', '2009-01-10 00:00:00.000000', 13.46, 'Clean Code'),
-       ('Douglas Crockford', '2017-11-07 15:09:01.674000', 11.71, 'JavaScript: The Good Parts'),
-       ('Steve McConnell', '2017-11-07 15:09:01.674000', 10.14, 'Code Complete'),
-       ('Martin Fowler e Kent Beck', '2017-11-07 15:09:01.674000', 15.38,
-        'Refactoring: Improving the Design of Existing Code'),
-       ('Eric Freeman, Elisabeth Freeman, Kathy Sierra, Bert Bates', '2017-11-07 15:09:01.674000', 19.23,
-        'Head First Design Patterns'),
-       ('Eric Evans', '2017-11-07 15:09:01.674000', 16.09, 'Domain-Driven Design'),
-       ('Brian Goetz e Tim Peierls', '2017-11-07 15:09:01.674000', 13.99, 'Java Concurrency in Practice'),
-       ('Susan Cain', '2017-11-07 15:09:01.674000', 21.51,
-        'Quiet: The Power of Introverts in a World That Cant Stop Talking'),
-       ('Roger S. Pressman', '2017-11-07 15:09:01.674000', 9.79, 'Software Engineering: A Practitioners Approach'),
-       ('Viktor Mayer-Schonberger e Kenneth Cukier', '2017-11-07 15:09:01.674000', 9.44,
-        'Big Data: Como extrair volume, variedade, velocidade e valor da avalanche de informação cotidiana'),
-       ('Richard Hunter e George Westerman', '2017-11-07 15:09:01.674000', 16.61, 'O verdadeiro valor de TI'),
-       ('Marc J. Schiller', '2017-11-07 15:09:01.674000', 7.87, 'The 11 Secrets of Highly Influential IT Leaders'),
-       ('Aguinaldo Aragon Fernandes e Vladimir Ferraz de Abreu', '2017-11-07 15:09:01.674000', 9.44,
-        'Implantando a governança de TI');
+INSERT INTO books (id, title, author, publisher, publication_year, price, review)
+VALUES (gen_random_uuid(), 'Working Effectively with Legacy Code', 'Michael C. Feathers', 'Prentice Hall', 2004, 8.92, 'Great book for legacy codebases.'),
+       (gen_random_uuid(), 'Design Patterns: Elements of Reusable Object-Oriented Software', 'Ralph Johnson, Erich Gamma, John Vlissides, Richard Helm', 'Addison-Wesley', 1994, 10,  'The classic GoF design patterns book.');
+    --    ,
+    --    (gen_random_uuid(), 'Clean Code', 'Robert C. Martin', 'Prentice Hall', 2008, 18.50, 'A handbook of agile software craftsmanship.'),
+    --    (gen_random_uuid(), 'JavaScript: The Good Parts', 'Douglas Crockford', 'O''Reilly Media', 2008,8,  'Unearthing the excellence in JavaScript.'),
+    --    (gen_random_uuid(), 'Code Complete', 'Steve McConnell', 'Microsoft Press', 2004,24, 'A practical handbook of software construction.'),
+    --    (gen_random_uuid(), 'Refactoring: Improving the Design of Existing Code', 'Martin Fowler, Kent Beck', 'Addison-Wesley', 1999,9.99,  'Improving the design of existing code.'),
+    --    (gen_random_uuid(), 'Head First Design Patterns', 'Eric Freeman, Elisabeth Freeman, Kathy Sierra, Bert Bates', 'O''Reilly Media', 2004, 7.50, 'A brain-friendly guide to design patterns.'),
+    --    (gen_random_uuid(), 'Domain-Driven Design', 'Eric Evans', 'Addison-Wesley', 2003, 11, 'Tackling complexity in the heart of software.'),
+    --    (gen_random_uuid(), 'Java Concurrency in Practice', 'Brian Goetz, Tim Peierls', 'Addison-Wesley', 2006, 12, 'The definitive guide to multithreaded programming in Java.');
