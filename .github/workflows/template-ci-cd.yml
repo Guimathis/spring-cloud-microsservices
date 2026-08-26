@@ -47,10 +47,10 @@ jobs:
 
       - name: Run Tests
         env:
-          DATASOURCE_URL_TEST: "jdbc:postgresql://localhost:5432/test"
-          DATASOURCE_USER_TEST: "postgres"
-          DATASOURCE_PASSWORD_TEST: "postgres"
-          GOOGLE_GENAI_APIKEY: ${{ secrets.GOOGLE_GENAI_APIKEY || 'test-api-key' }}
+          DATASOURCE_URL_TEST: ${{ secrets.DATASOURCE_URL_TEST  }}
+          DATASOURCE_USER_TEST:  ${{ secrets.DATASOURCE_USER_TEST  }}
+          DATASOURCE_PASSWORD_TEST:  ${{ secrets.DATASOURCE_PASSWORD_TEST  }}
+          GOOGLE_GENAI_APIKEY: ${{ secrets.GOOGLE_GENAI_APIKEY }}
         run: |
           mvn test -f ${{ inputs.working_directory }}/pom.xml
 
