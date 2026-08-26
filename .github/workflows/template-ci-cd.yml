@@ -27,8 +27,10 @@ on:
         required: true
       DATASOURCE_USERNAME:
         required: true
-      DATASOURCE_URL_TEST:
-        required: true
+      BOOK_DATASOURCE_URL_TEST:
+        required: false
+      EXCHANGE_DATASOURCE_URL_TEST:
+        required: false
       DATASOURCE_USER_TEST:
         required: true
       DATASOURCE_PASSWORD_TEST:
@@ -53,7 +55,8 @@ jobs:
 
       - name: Run Tests
         env:
-          DATASOURCE_URL_TEST: ${{ secrets.DATASOURCE_URL_TEST  }}
+          EXCHANGE_DATASOURCE_URL_TEST: ${{ secrets.EXCHANGE_DATASOURCE_URL_TEST  }}
+          BOOK_DATASOURCE_URL_TEST: ${{ secrets.BOOK_DATASOURCE_URL_TEST  }}
           DATASOURCE_USER_TEST:  ${{ secrets.DATASOURCE_USER_TEST  }}
           DATASOURCE_PASSWORD_TEST:  ${{ secrets.DATASOURCE_PASSWORD_TEST  }}
           GOOGLE_GENAI_APIKEY: ${{ secrets.GOOGLE_GENAI_APIKEY }}
