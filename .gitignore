@@ -6,3 +6,11 @@ target/
 **/.env
 .env.test
 **/.env.test
+**/.mvn
+**/.mvn/
+**/mvnw
+**/mvnw.cmd
+.mvn/
+.mvn
+mvnw
+mvnw.cmd
