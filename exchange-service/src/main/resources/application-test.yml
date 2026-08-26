@@ -5,7 +5,7 @@ spring:
     name: exchange-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATASOURCE_URL_TEST}
+    url: ${EXCHANGE_DATASOURCE_URL_TEST}
     username:  ${DATASOURCE_USER_TEST}
     password:  ${DATASOURCE_PASSWORD_TEST}
   jpa:
