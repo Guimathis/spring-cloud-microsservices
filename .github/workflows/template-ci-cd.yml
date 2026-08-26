@@ -27,6 +27,12 @@ on:
         required: true
       DATASOURCE_USERNAME:
         required: true
+      DATASOURCE_URL_TEST:
+        required: true
+      DATASOURCE_USER_TEST:
+        required: true
+      DATASOURCE_PASSWORD_TEST:
+        required: true
       GOOGLE_GENAI_APIKEY:
         required: false
 
