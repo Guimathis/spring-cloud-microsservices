@@ -1,13 +1,13 @@
 spring:
   config:
-    import: optional:file:./exchange-service/.env[.properties]
+    import: optional:file:.env.test[.properties]
   application:
     name: exchange-service
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATASOURCE_URL}
-    username:  ${DATASOURCE_USER}
-    password:  ${DATASOURCE_PASSWORD}
+    url: ${DATASOURCE_URL_TEST}
+    username:  ${DATASOURCE_USER_TEST}
+    password:  ${DATASOURCE_PASSWORD_TEST}
   jpa:
     hibernate:
       ddl-auto: none

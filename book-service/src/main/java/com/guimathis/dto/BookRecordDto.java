@@ -5,24 +5,24 @@ import jakarta.validation.constraints.*;
 import java.math.BigDecimal;
 
 public record BookRecordDto(
-        @NotBlank
-        @Size(max = 150)
+        @NotBlank(message = "O Título é obrigatório")
+        @Size(max = 150, message = "O Título deve conter no máximo 150 caracteres")
         String title,
 
-        @NotBlank
+        @NotBlank(message = "O Autor é obrigatório")
         @Size(max = 100)
         String author,
 
-        @NotBlank
+        @NotBlank(message = "A Editora é obrigatório")
         @Size(max = 100)
         String publisher,
 
-        @NotNull
+        @NotNull(message = "O Ano de publicação é obrigatório")
         @Min(value = 1450)
         @Max(value = 2100)
         Integer publicationYear,
 
-        @NotNull
+        @NotNull(message = "O Preço é obrigatório")
         @PositiveOrZero
         BigDecimal price
 ) {

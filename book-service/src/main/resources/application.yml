@@ -18,6 +18,10 @@ spring:
         api-key: ${GOOGLE_GENAI_APIKEY}
         chat:
           model: gemini-3.5-flash-lite
+  web:
+    error:
+      include-stacktrace: never
+      include-message: always
 management:
   endpoint:
     health:
@@ -80,6 +84,7 @@ resilience4j:
 
 server:
   port: 8100
+
 
 #eureka:
 #  client:

@@ -1,8 +1,7 @@
-package com.guimathis.exchangeservice;
+package com.guimathis.exchangeservice.service;
 
 import com.guimathis.exchangeservice.exception.ExchangeNotSuportedException;
 import com.guimathis.exchangeservice.repository.ExchangeRepository;
-import com.guimathis.exchangeservice.service.ExchangeService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,4 +1,4 @@
-package com.guimathis.exception;
+package com.guimathis.exchangeservice.exception;
 
 import java.time.Instant;
 

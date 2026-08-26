@@ -25,7 +25,7 @@ public class ExchangeService {
 
     public Exchange doExchange(BigDecimal value, String from, String to) {
         Exchange exchange = exchangeRepository.findByFromAndTo(from, to)
-                .orElseThrow(() -> new ExchangeNotSuportedException("Exchange not supported for " + from + " to " + to));
+                .orElseThrow(() -> new ExchangeNotSuportedException(from, to));
 
         logger.info("Calculando exchange rate: {} x {} = {} {}", value, from, getExchangeRate(value, exchange), to);
 
