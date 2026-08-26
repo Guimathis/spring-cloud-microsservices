@@ -11,8 +11,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import com.guimathis.dto.ExchangeDTO;
-import com.guimathis.dtos.BookIndexResponse;
-import com.guimathis.dtos.BookRecordDto;
+import com.guimathis.dto.BookIndexResponse;
+import com.guimathis.dto.BookRecordDto;
 import com.guimathis.environment.InstanceInformationService;
 import com.guimathis.model.Book;
 import com.guimathis.proxy.ExchangeClient;
@@ -61,10 +61,10 @@ public class BookService {
         return bookRepository.findById(id);
     }
 
-    @Retry(name = "exchange-service")
-    @CircuitBreaker(name = "exchange-service", fallbackMethod = "getExchangeFallback")
+    @Retry(name = "exchange-service", fallbackMethod = "getExchangeFallback"  )
+    @CircuitBreaker(name = "exchange-service")
     @RateLimiter(name = "exchange-service")
-    public Optional<Book> findById(UUID id, String currency) {
+    public Optional<Book> findByIdWithCurrency(UUID id, String currency) {
         var bookOptional = bookRepository.findById(id);
         if (bookOptional.isEmpty()) {
             return Optional.empty();

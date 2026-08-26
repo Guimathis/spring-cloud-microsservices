@@ -46,13 +46,23 @@ public class Book implements Serializable {
     public Book() {
     }
 
-    public Book(UUID id, String title, String author, String publisher, Integer publicationYear, String review) {
+    public Book(UUID id, String title, String author, String publisher, Integer publicationYear, BigDecimal price, String currency) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.publisher = publisher;
         this.publicationYear = publicationYear;
-        this.review = review;
+        this.price = price;
+        this.currency = currency;
+    }
+
+    public Book(String title, String author, String publisher, Integer publicationYear, BigDecimal price, String currency) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.publicationYear = publicationYear;
+        this.price = price;
+        this.currency = currency;
     }
 
     public UUID getId() {

@@ -1,4 +1,4 @@
-package com.guimathis.dtos;
+package com.guimathis.dto;
 
 import com.guimathis.model.Book;
 

@@ -47,9 +47,9 @@ This code will be explained line by line on video.
 
 ## Layout
 src/main/java/com/decoder/bookstore/
-controllers/   REST controllers
-services/      business rules
-repositories/  Spring Data JPA interfaces
-models/        JPA entities
-dtos/          input records
-configs/       Spring configuration
+controller/   REST controllers
+service/      business rules
+repositorie/  Spring Data JPA interfaces
+model/        JPA entities
+dto/          input records
+config/       Spring configuration
