@@ -1,5 +1,21 @@
 # Microservices Ecosystem — Spring Cloud, Kubernetes & Spring AI
 
+![Java 21](https://img.shields.io/badge/Java_21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot_4-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Cloud](https://img.shields.io/badge/Spring_Cloud-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Spring AI](https://img.shields.io/badge/Spring_AI-6DB33F?style=for-the-badge&logo=spring&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/Google_Gemini-886CE4?style=for-the-badge&logo=googlegemini&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Flyway](https://img.shields.io/badge/Flyway-CC0200?style=for-the-badge&logo=flyway&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Google Cloud GKE](https://img.shields.io/badge/Google_Cloud_GKE-4285F4?style=for-the-badge&logo=googlecloud&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+![Resilience4j](https://img.shields.io/badge/Resilience4j-F4511E?style=for-the-badge)
+![Swagger](https://img.shields.io/badge/Swagger_OpenAPI_3-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+![JUnit 5](https://img.shields.io/badge/JUnit_5-25A162?style=for-the-badge&logo=junit5&logoColor=white)
+![Apache Maven](https://img.shields.io/badge/Apache_Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+
 Ecossistema de microsserviços em **Java / Spring Boot** que demonstra a evolução contínua de uma arquitetura distribuída: desde a stack tradicional com **Spring Cloud Netflix**, passando pela migração para **Kubernetes & CI/CD no Google Kubernetes Engine (GKE)**, até a maturidade atual com integração de **IA Generativa (Spring AI)**, CRUD REST completo com DTOs, tratamento global de erros e suíte avançada de testes e resiliência.
 
 ---
